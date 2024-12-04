@@ -20,6 +20,8 @@ private val SURNAME_KEY  = stringPreferencesKey("surname")
 private val EMAIL_KEY  = stringPreferencesKey("email")
 private val PASSWORD_KEY  = stringPreferencesKey("password")
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
+
 @Singleton
 class RegisterRepository @Inject constructor(@ApplicationContext val context: Context,
                                             private val api: ReadyToEnjoyApiService) {
@@ -52,7 +54,7 @@ class RegisterRepository @Inject constructor(@ApplicationContext val context: Co
             it[EMAIL_KEY] ?: ""
         }.first()
 
-        // Si el telefono local es vacio, no estoy registrado
+
         return if (localEmail.isBlank()) {
             false
         }

@@ -17,7 +17,7 @@ import javax.inject.Singleton
 
 fun AdvenResponseLR.toExternal(): User {
     return User(
-        jwt= this.jwt,
+        //jwt= this.jwt,
         id = this.user.id,
         name = this.user.name,
         email =  this.user.email,
@@ -26,17 +26,21 @@ fun AdvenResponseLR.toExternal(): User {
 @Singleton
 class LoginRepository @Inject constructor(private val userDao: UserDao,private val api: ReadyToEnjoyApiService) {
 
-    suspend fun login(identifier: String, password: String): Boolean {
-        val response = api.login(LoginRequest(identifier, password))
-        val userEntity = UserEntity(
-            //id = response.user.id,
-           // name = response.user.username,
-            //email = response.user.email,
-           // jwt = response.jwt
-        )
-        userDao.createUser(userEntity) // Guardar usuario en Room
-        return userEntity
 
+    suspend fun login(identifier:String,password:String):String? {
+        val response = api.login(
+            LoginRequest(identifier,password)
+        )
+
+        // Me he logueado
+        return if (response.isSuccessful) {
+            // TODO GUARDAR LOCALMENTE EL TOKEN
+            response.body()!!.jwt
+        }
+        // No me he logueado
+        else {
+            null
+        }
     }
 
     suspend fun getLocalUser(): UserEntity?{

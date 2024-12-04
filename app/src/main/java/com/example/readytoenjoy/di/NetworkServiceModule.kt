@@ -2,6 +2,7 @@ package com.example.readytoenjoy.di
 
 import com.example.readytoenjoy.core.data.activity.ActivityRepositoryInterface
 import com.example.readytoenjoy.core.data.activity.DefaultActivityRepository
+import com.example.readytoenjoy.core.local.UserDao
 import com.example.readytoenjoy.core.network.activity.ActivityNetworkRepository
 import com.example.readytoenjoy.core.network.activity.ActivityNetworkRepositoryInterface
 import com.example.readytoenjoy.core.network.ReadyToEnjoyApiService
@@ -41,5 +42,11 @@ class NetworkServiceModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ReadyToEnjoyApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    public UserDao provideUserDao(AppDatabase database) {
+        return database.userDao();
     }
 }

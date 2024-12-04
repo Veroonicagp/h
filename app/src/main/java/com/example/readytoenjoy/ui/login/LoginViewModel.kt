@@ -27,13 +27,19 @@ class LoginViewModel @Inject constructor(private val repository: LoginRepository
     val user: StateFlow<UiState>
         get() = _user.asStateFlow()
 
-    fun register(identifier:String, password:String) {
+
+
+    fun login(identifier:String, password:String) {
         viewModelScope.launch {
-            _user.value = if (repository.login(identifier,password)) {
-                UiState.Success
-            }else {
-                UiState.Error("Los datos no estan bien introducidos")
+            _user.value = UiState.Loading
+            val jwt = repository.login(identifier,password)
+            if (jwt == null) {
+                _user.value = UiState.Error("Mala contraseña o usuario")
             }
+            else {
+                _user.value = UiState.Success
+            }
+
         }
     }
 }
