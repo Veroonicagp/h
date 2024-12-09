@@ -1,8 +1,6 @@
 package com.example.readytoenjoy.core.data.adven
 
 import com.example.readytoenjoy.core.data.activity.Activity
-import com.example.readytoenjoy.core.local.UserDao
-import com.example.readytoenjoy.core.local.UserEntity
 import com.example.readytoenjoy.core.network.ReadyToEnjoyApiService
 import com.example.readytoenjoy.core.network.activity.ActivityResponse
 import com.example.readytoenjoy.core.network.adevn.AdvenResponseLR
@@ -24,7 +22,7 @@ fun AdvenResponseLR.toExternal(): User {
     )
 }
 @Singleton
-class LoginRepository @Inject constructor(private val userDao: UserDao,private val api: ReadyToEnjoyApiService) {
+class LoginRepository @Inject constructor(private val api: ReadyToEnjoyApiService) {
 
 
     suspend fun login(identifier:String,password:String):String? {
@@ -43,7 +41,4 @@ class LoginRepository @Inject constructor(private val userDao: UserDao,private v
         }
     }
 
-    suspend fun getLocalUser(): UserEntity?{
-        return userDao.getUser()
-    }
 }
